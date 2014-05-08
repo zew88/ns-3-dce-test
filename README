@@ -1,2 +1,8 @@
 How to run create folder under myscript
+./waf --run "test1 --option=value"
+ 
+option 
+- bufSize
+- delay
+- errRate
 
