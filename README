@@ -1,4 +1,4 @@
-How to run create folder under myscript
+How to run create folder under myscript directory of NS-3-DCE
 ./waf --run "test1 --option=value"
  
 option 
