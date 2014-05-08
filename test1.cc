@@ -137,6 +137,7 @@ NS_LOG_INFO ("Assign IP Addresses.");
   ApplicationContainer ClientApps2 = dce.Install (c.Get (2));
   ClientApps2.Start (Seconds (1));
   ClientApps2.Stop (Seconds (10));
+  
  // Launch iperf server on node 2
   dce.SetBinary ("iperf");
   dce.ResetArguments ();

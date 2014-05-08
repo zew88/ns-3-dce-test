@@ -66,7 +66,7 @@ main (int argc, char *argv[])
   p2p.SetDeviceAttribute ("DataRate", StringValue ("1Gbps"));
   p2p.SetChannelAttribute ("Delay", StringValue (delay));
   NetDeviceContainer d1d2 = p2p.Install (n1n2);
-  d0d1.Get (2)->SetAttribute ("ReceiveErrorModel", PointerValue (em));
+  d0d1.Get (1)->SetAttribute ("ReceiveErrorModel", PointerValue (em));
 
 // IP Address
 NS_LOG_INFO ("Assign IP Addresses.");
