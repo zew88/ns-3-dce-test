@@ -15,10 +15,14 @@ int
 main (int argc, char *argv[])
 {
   double errRate = 0.01;
-  std::string bufSize = "4096";
+  std::string minBufSize = "4096";
+  std::string defBufSize = "4096";
+  std::string maxBufSize = "8388608";
   std::string delay = "2ms";
   CommandLine cmd;
-  cmd.AddValue ("buffer", "Buffer Size.", bufSize);
+  cmd.AddValue ("mibbuffer", "Buffer Size.", minBufSize);
+  cmd.AddValue ("defbuffer", "Buffer Size.", defBufSize);
+  cmd.AddValue ("maxbuffer", "Buffer Size.", maxBufSize);
   cmd.AddValue ("delay", "Delay.", delay);
   cmd.AddValue ("errRate", "Error rate.", errRate);
   cmd.Parse (argc, argv);
@@ -37,10 +41,10 @@ main (int argc, char *argv[])
       LinuxStackHelper stack;
       stack.Install (c);
       dceManager.Install (c);
-      stack.SysctlSet (c, ".net.ipv4.tcp_rmem", "4096 "+bufSize+" 8388608");
-      stack.SysctlSet (c, ".net.ipv4.tcp_wmem", "4096 "+bufSize+" 8388608");
-      stack.SysctlSet (c, ".net.core.rmem_max", bufSize);
-      stack.SysctlSet (c, ".net.core.wmem_max", bufSize);
+      stack.SysctlSet (c, ".net.ipv4.tcp_rmem", minBufSize+" "+defBufSize+" "+maxBufSize);
+      stack.SysctlSet (c, ".net.ipv4.tcp_wmem", minBufSize+" "+defBufSize+" "+maxBufSize);
+      stack.SysctlSet (c, ".net.core.rmem_max", defBufSize);
+      stack.SysctlSet (c, ".net.core.wmem_max", defBufSize);
       
 #else
       NS_LOG_ERROR ("Linux kernel stack for DCE is not available. build with dce-linux module.");
@@ -66,7 +70,7 @@ main (int argc, char *argv[])
   p2p.SetDeviceAttribute ("DataRate", StringValue ("1Gbps"));
   p2p.SetChannelAttribute ("Delay", StringValue (delay));
   NetDeviceContainer d1d2 = p2p.Install (n1n2);
-  d1d2.Get (1)->SetAttribute ("ReceiveErrorModel", PointerValue (em));
+  d0d1.Get (1)->SetAttribute ("ReceiveErrorModel", PointerValue (em));
 
 // IP Address
 NS_LOG_INFO ("Assign IP Addresses.");
@@ -171,7 +175,6 @@ NS_LOG_INFO ("Assign IP Addresses.");
 
   return 0;
 } 
-
 
 
 
